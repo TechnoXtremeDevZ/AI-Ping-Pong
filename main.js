@@ -1,6 +1,3 @@
-
-/*created by prashant shukla */
-
 var paddle2 =10,paddle1=10;
 
 var paddle1X = 10,paddle1Height = 110;
@@ -23,8 +20,27 @@ var ball = {
 
 function setup(){
   var canvas =  createCanvas(700,600);
+
+  video = createCapture(VIDEO);
+  video.size(700, 600);
+  video.hide();
+  
+  canvas.parent("canvas_game");
+
+  posenet = ml5.poseNet(video, modelLoaded);
+  posenet.on("pose", gotPoses);
 }
 
+function modelLoaded() {
+  console.log("Model is Loaded.");
+}
+
+function gotPoses(results) {
+  if (results.length > 0) {
+    noseX = results[0].pose.nose.x;
+    noseY = results[0].pose.nose.y;
+  }
+}
 
 function draw(){
 
@@ -38,6 +54,7 @@ function draw(){
  stroke("black");
  rect(0,0,20,700);
  
+ image(video, 0, 0, 700, 600);
    //funtion paddleInCanvas call 
    paddleInCanvas();
  

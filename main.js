@@ -1,6 +1,3 @@
-
-
-
 var paddle2 = 10, paddle1 = 10;
 
 var paddle1X = 10, paddle1Height = 110;
@@ -27,6 +24,11 @@ scoreRightWrist = 0;
 
 var gameStatus = "";
 
+function preload() {
+  BoP = loadSound("ball_touch_paddel.wav");
+  miss_ball = loadSound("missed.wav");
+}
+ 
 function setup() {
   var canvas = createCanvas(700, 600);
   video = createCapture(VIDEO);
@@ -99,6 +101,7 @@ function startGame() {
       ball.y = height / 2 + 100;
     ball.dx = 3;
     ball.dy = 3;
+    miss_ball.play();
   }
 
 
@@ -140,7 +143,7 @@ function startGame() {
     if (ball.x - 2.5 * ball.r / 2 < 0) {
       if (ball.y >= paddle1Y && ball.y <= paddle1Y + paddle1Height) {
         ball.dx = -ball.dx + 0.5;
-
+        BoP.play();
       }
       else {
         pcscore++;
